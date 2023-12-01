@@ -3,5 +3,11 @@
   "name": "@yakubiv/rehype-preset",
   "type": "module",
   "version": "0.0.0",
-  "module": "index.js"
+  "module": "index.js",
+  "dependencies": {
+    "glob": "^10",
+    "hast-util-has-property": "^3",
+    "rehype-format": "^5",
+    "unist-util-visit": "^5"
+  }
 }
