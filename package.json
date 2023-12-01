@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "name": "@yakubiv/rehype-preset",
+  "type": "module",
+  "version": "0.0.0",
+  "module": "index.js"
+}
