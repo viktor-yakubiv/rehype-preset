@@ -1,16 +1,19 @@
-import { resolve as resolvePath, dirname } from 'node:path'
-import { glob } from 'glob'
 import { access } from 'node:fs/promises'
+import { resolve as resolvePath, dirname } from 'node:path'
+import lookup from '../lib/lookup'
 
 const ERROR_PATH_UNDEFINED = 'Path of processing file is not defined. \
 Local transformer is not effective.'
 
 /**
  * @param options
- * @param options.pattern: string - glob pattern to module with transformer
+ * @param {string} options?.pattern - glob pattern to module with transformer
+ * @param {string} options?.basePath - path where website code is located
+ * @param {number} options?.lookupLimit
  */
-export default function localTransformer(options) {
-	const globPattern = options?.pattern ?? './transformer.js'
+export default function attachTransformer(options) {
+	const pattern = options?.pattern ?? 'transformer.js'
+	const basePath = options?.basePath ?? process.cwd()
 
 	const transformer = async (tree, file) => {
 		if (file.path == null) {
@@ -18,17 +21,21 @@ export default function localTransformer(options) {
 			return
 		}
 
-		const modulePattern = resolvePath(dirname(file.path), globPattern)
-		const modulePaths = await glob(modulePattern)
+		const transformerPaths = await lookup(pattern, dirname(file.path), {
+			dir: basePath,
+			limit: options?.lookupLimit,
+		})
+		const transformerPath = transformerPaths[0]
+
 		try {
-			await access(modulePaths[0])
+			await access(transformerPath)
 		} catch (_doesNotExistError) {
 			return
 		}
 
-		const module = await import(modulePaths[0])
+		const module = await import(transformerPath)
 		const processor = module.default
-		return processor?.call(this, tree, file)
+		return processor.call(this, tree, file)
 	}
 
 	return transformer

@@ -2,11 +2,11 @@
   "private": true,
   "type": "module",
   "name": "@yakubiv/rehype-preset",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "exports": "./index.js",
   "dependencies": {
-    "glob": "^10",
     "hast-util-has-property": "^3",
+    "lodash.merge": "^4",
     "rehype-format": "^5",
     "unist-util-visit": "^5"
   }
