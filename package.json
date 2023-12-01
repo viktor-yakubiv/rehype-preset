@@ -1,9 +1,9 @@
 {
   "private": true,
-  "name": "@yakubiv/rehype-preset",
   "type": "module",
+  "name": "@yakubiv/rehype-preset",
   "version": "0.0.0",
-  "module": "index.js",
+  "exports": "./index.js",
   "dependencies": {
     "glob": "^10",
     "hast-util-has-property": "^3",
