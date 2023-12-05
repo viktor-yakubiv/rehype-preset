@@ -1,6 +1,6 @@
 import { access } from 'node:fs/promises'
-import { resolve as resolvePath, dirname } from 'node:path'
-import lookup from '../lib/lookup'
+import { dirname } from 'node:path'
+import lookup from '../lib/lookup.js'
 
 const ERROR_PATH_UNDEFINED = 'Path of processing file is not defined. \
 Local transformer is not effective.'

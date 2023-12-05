@@ -1,6 +1,6 @@
 import { resolve as resolvePath, dirname } from 'node:path'
 import merge from 'lodash.merge'
-import lookup from '../lib/lookup'
+import lookup from '../lib/lookup.js'
 
 const ERROR_PATH_UNDEFINED = 'Path of processing file is not defined. \
 Local transformer is not effective.'
