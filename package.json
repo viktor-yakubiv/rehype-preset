@@ -6,7 +6,7 @@
   "exports": "./index.js",
   "dependencies": {
     "hast-util-has-property": "^3",
-    "hast-util-merge": "github.com:viktor-yakubiv/hast-util-merge",
+    "hast-util-merge": "github.com:viktor-yakubiv/hast-util-merge#4bb2c2a",
     "lodash.merge": "^4",
     "rehype-format": "^5",
     "to-vfile": "^8.0.0",
