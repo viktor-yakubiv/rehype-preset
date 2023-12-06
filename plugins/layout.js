@@ -1,9 +1,22 @@
 import { dirname } from 'node:path'
 import { read } from 'to-vfile'
-import { mergeTrees } from 'hast-util-merge'
+import { mergeDocuments } from 'hast-util-merge'
+import {
+	extract as extractSlots,
+	replace as injectSlots,
+} from 'hast-util-slots'
 import lookup from '../lib/lookup.js'
 
 const ERROR_PATH_UNDEFINED = 'Path of processing file is not defined'
+
+const mergeBody = (target, source) => {
+	const slots = extractSlots(source)
+	injectSlots(target, slots)
+	return target
+}
+
+const merge = (target, ...sources) => sources.reduce((target, source) =>
+	mergeDocuments(target, source, { mergeBody }), target)
 
 /**
  * @param options
@@ -36,7 +49,6 @@ function layout(options) {
 		return tree
 	}
 
-
 	const wrapLayouts = async (page, file) => {
 		if (file.path == null) {
 			console.warn(ERROR_PATH_UNDEFINED)
@@ -51,7 +63,7 @@ function layout(options) {
 		const layouts = await Promise.all(layoutPaths.map(loadLayout))
 
 		// Reversed to order from more global to more specific
-		return mergeTrees(...layouts.reverse(), page)
+		return merge(...layouts.reverse(), page)
 	}
 
 	return wrapLayouts
