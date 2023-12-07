@@ -15,8 +15,12 @@ const mergeBody = (target, source) => {
 	return target
 }
 
-const merge = (target, ...sources) => sources.reduce((target, source) =>
-	mergeDocuments(target, source, { mergeBody }), target)
+// Merges from the most specific to the most global
+const mergeReverse = (...sources) => {
+	const page = sources.at(-1)
+	return sources.reverse().slice(1).reduce((source, target) =>
+		mergeDocuments(target, source, { mergeBody }), page)
+}
 
 /**
  * @param options
@@ -62,8 +66,8 @@ function layout(options) {
 
 		const layouts = await Promise.all(layoutPaths.map(loadLayout))
 
-		// Reversed to order from more global to more specific
-		return merge(...layouts.reverse(), page)
+		// Arguments ordered from the most global to the most specific
+		return mergeReverse(...layouts.reverse(), page)
 	}
 
 	return wrapLayouts
