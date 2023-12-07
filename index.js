@@ -9,7 +9,7 @@ export default {
 		absoluteUrls,
 		dataLoader,
 		localTransformer,
-		layout,
+		[layout, { preprocess: true }],
 		finalFormatter,
 	],
 
