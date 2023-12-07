@@ -21,6 +21,10 @@ export default (options = {}) => (tree, file) => {
 			return
 		}
 
+		if (node.properties[prop].startsWith('#')) {
+			return
+		}
+
 		const url = new URL(node.properties[prop], FAKE_ORIGIN)
 		if (url.origin != FAKE_ORIGIN) {
 			return
