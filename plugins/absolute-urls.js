@@ -1,4 +1,4 @@
-import { resolve as resolvePath, dirname } from 'node:path'
+import { resolve as resolvePath } from 'node:path'
 import { hasProperty as has } from 'hast-util-has-property'
 import { visit } from 'unist-util-visit'
 
@@ -6,14 +6,19 @@ const FAKE_HOST = (Math.random() + 1).toString(36)
 const FAKE_ORIGIN = 'https://' + FAKE_HOST
 
 export default (options = {}) => (tree, file) => {
-	const fileDir = dirname(file.path)
-	const sourcePath = resolvePath(fileDir, options.sourcePath ?? './')
-	const publicPath = options.publicPath ?? '/'
+	const sourceRootPath = resolvePath(options.sourceRootPath ?? './')
+	const sourceRootUrl = new URL(`file://${sourceRootPath.replace(/\/$/, '')}`)
+
+	const publicRootPath = options.publicRootPath ?? '/'
+	const publicRootUrl = new URL(publicRootPath, FAKE_ORIGIN)
+
+	const localFileUrl = new URL(`file://${resolvePath(file.path)}`)
+	const publicFileUrl = new URL(localFileUrl.toString().replace(new RegExp(`^${sourceRootUrl}/`), publicRootUrl))
 
 	const resolveAbsoluteUrl = (href) => {
-		const fsPath = resolvePath(fileDir, href)
-		const urlPath = fsPath.replace(new RegExp(`^${sourcePath}/`), publicPath)
-		return urlPath
+		const url = new URL(href, publicFileUrl)
+		const publicHref = url.href.replace(new RegExp(`^${FAKE_ORIGIN}`), '')
+		return publicHref
 	}
 
 	const modify = (node, prop) => {
