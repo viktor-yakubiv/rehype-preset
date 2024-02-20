@@ -18,7 +18,7 @@ const mergeBody = (target, source) => {
 // Merges from the most specific to the most global
 const mergeReverse = (...sources) => {
 	const page = sources.at(-1)
-	return sources.reverse().slice(1).reduce((source, target) =>
+	return sources.reverse().slice(1).reduce((target, source) =>
 		mergeDocuments(target, source, { mergeBody }), page)
 }
 
