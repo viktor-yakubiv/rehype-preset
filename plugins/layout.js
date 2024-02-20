@@ -9,17 +9,29 @@ import lookup from '../lib/lookup.js'
 
 const ERROR_PATH_UNDEFINED = 'Path of processing file is not defined'
 
-const mergeBody = (target, source) => {
-	const slots = extractSlots(source)
-	injectSlots(target, slots)
-	return target
+/**
+ * @typedef {import('hast').Element} Element
+ */
+
+/**
+ * @param {Element} layout - tree, where slots get substituted
+ * @param {Element} page - tree, where slots are extracted from
+ */
+const mergeBody = (layout, page) => {
+	const slots = extractSlots(page)
+	injectSlots(layout, slots)
+	return layout
 }
 
-// Merges from the most specific to the most global
+/**
+ * Merges from the most specific to the most global
+ *
+ * @param {Element[]} sources - trees to merge
+ */
 const mergeReverse = (...sources) => {
 	const page = sources.at(-1)
-	return sources.reverse().slice(1).reduce((target, source) =>
-		mergeDocuments(target, source, { mergeBody }), page)
+	return sources.reverse().slice(1).reduce((page, layout) =>
+		mergeDocuments(layout, page, { mergeBody }), page)
 }
 
 /**

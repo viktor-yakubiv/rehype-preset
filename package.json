@@ -12,5 +12,9 @@
     "rehype-format": "^5",
     "to-vfile": "^8.0.0",
     "unist-util-visit": "^5"
+  },
+  "devDependencies": {
+    "@types/hast": "^3.0.4",
+    "unist-util-inspect": "^8.0.0"
   }
 }
