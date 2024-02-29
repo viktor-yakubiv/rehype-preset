@@ -9,6 +9,7 @@
     "hast-util-merge": "github:viktor-yakubiv/hast-util-merge#659fd07",
     "hast-util-slots": "github:viktor-yakubiv/hast-util-slots#7912b36",
     "lodash.merge": "^4",
+    "rehype-absolute-urls": "^0.1",
     "rehype-format": "^5",
     "to-vfile": "^8.0.0",
     "unist-util-visit": "^5"

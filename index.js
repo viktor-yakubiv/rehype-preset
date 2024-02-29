@@ -1,4 +1,4 @@
-import absoluteUrls from './plugins/absolute-urls.js'
+import absoluteUrls from 'rehype-absolute-urls'
 import dataLoader from './plugins/data-loader.js'
 import localTransformer from './plugins/local-transformer.js'
 import layout from './plugins/layout.js'
