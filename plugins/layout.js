@@ -26,7 +26,8 @@ const mergeBody = (layout, page) => {
 /**
  * Merges from the most specific to the most global
  *
- * @param {Element[]} sources - trees to merge
+ * @param {Element[]} sources - trees to merge,
+ *   in order from the most generic to the most specific
  */
 const mergeReverse = (...sources) => {
 	const page = sources.at(-1)
